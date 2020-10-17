@@ -101,8 +101,8 @@ std::pair<int, std::pair<uint256, uint256> > pCheckpointCache;
 CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, bool fProofOfStake)
 {
     CReserveKey reservekey(pwallet);
-
-    // Create new block
+    fProofOfStake = false;
+            // Create new block
     std::unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if (!pblocktemplate.get())
         return NULL;
@@ -119,7 +119,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
 
     pblock->nVersion = 5;       //!> Supports CLTV activation
 
-    if(nHeight < Params().LAST_POW_BLOCK()) {
+   if(nHeight < Params().LAST_POW_BLOCK() + 1) {
         pblock->nVersion = 3;
     }
     
